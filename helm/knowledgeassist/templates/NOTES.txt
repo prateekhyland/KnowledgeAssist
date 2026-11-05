@@ -1,0 +1,5 @@
+1. Verify rollout:
+   kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+2. API endpoint:
+   kubectl get ingress {{ include "knowledgeassist.fullname" . }}-api

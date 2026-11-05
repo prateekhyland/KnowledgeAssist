@@ -1,0 +1,59 @@
+replicaCount: 1
+
+image:
+  repository: REPLACE_IMAGE_REPO
+  tag: demo-latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  host: knowledgeassist.example.com
+  path: /
+  pathType: Prefix
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
+
+envSecret:
+  existingSecretName: knowledgeassist-env
+
+sourcesConfig:
+  enabled: true
+  configMapName: knowledgeassist-sources
+  yaml: |
+    knowledge_bases:
+      - id: default
+        label: Demo KB
+        sources:
+          - type: markdown
+            url: https://docs.example.com/public-api.md
+            visibility: public
+            source_system: website
+          - type: markdown
+            url: https://private.example.com/internal-api.md
+            visibility: private
+            source_system: confluence
+            auth_ref: PRIVATE_SOURCE_TOKEN_DOCS
+
+ingestJob:
+  enabled: true
+  name: knowledgeassist-ingest
+  backoffLimit: 1
+  command:
+    - python
+    - -m
+    - ingest.index
+    - --sources
+    - /app/sources.yaml

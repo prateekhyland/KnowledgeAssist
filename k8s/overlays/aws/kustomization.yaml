@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: knowledgeassist-app
+
+resources:
+  - ../../base
+
+images:
+  - name: REPLACE_IMAGE
+    newName: <aws_account_id>.dkr.ecr.<region>.amazonaws.com/knowledgeassist
+    newTag: demo-latest
+
+patches:
+  - path: patch-ingress.yaml

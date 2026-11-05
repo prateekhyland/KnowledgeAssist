@@ -1,0 +1,1 @@
+"""KnowledgeAssist application package."""

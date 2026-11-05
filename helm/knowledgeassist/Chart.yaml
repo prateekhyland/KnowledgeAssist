@@ -1,0 +1,6 @@
+apiVersion: v2
+name: knowledgeassist
+description: Helm chart for KnowledgeAssist API + ingest job
+version: 0.1.0
+appVersion: "0.1.0"
+type: application

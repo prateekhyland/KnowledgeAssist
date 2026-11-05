@@ -1,0 +1,1 @@
+"""KnowledgeAssist ingestion package."""

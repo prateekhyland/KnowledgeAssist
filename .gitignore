@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local config (never commit real endpoints/secrets)
+.env
+.env.*
+!.env.example
+sources.yaml
+
+# Model / HF cache
+.cache/
+models/
+hf-cache/
+
+# Generated index + runtime data (rebuild with scripts\ingest.ps1)
+data/
+
+# Logs
+*.log
+logs/
+
+# Editors / IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store

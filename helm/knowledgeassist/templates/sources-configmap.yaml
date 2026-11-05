@@ -1,0 +1,11 @@
+{{- if .Values.sourcesConfig.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.sourcesConfig.configMapName }}
+  labels:
+    {{- include "knowledgeassist.labels" . | nindent 4 }}
+data:
+  sources.yaml: |
+{{ .Values.sourcesConfig.yaml | indent 4 }}
+{{- end }}

@@ -1,0 +1,65 @@
+# KnowledgeAssist ingestion sources.
+# Copy this file to `sources.yaml` and replace the placeholders with your own docs.
+# `sources.yaml` is git-ignored so your real endpoints stay out of version control.
+#
+# Private-source auth options:
+# 1) Bearer token (default)
+#    auth_ref: ENV_VAR_NAME
+# 2) Custom header token
+#    auth_ref: ENV_VAR_NAME
+#    auth_header: X-API-Key
+#    auth_scheme: raw
+# 3) Basic auth
+#    auth_type: basic
+#    auth_user_env: ENV_USER
+#    auth_pass_env: ENV_PASS
+
+knowledge_bases:
+  - id: default
+    label: "My API"
+    sources:
+      # An OpenAPI/Swagger spec (JSON or YAML). Best source for REST code samples.
+      - type: openapi
+        url: https://docs.example.com/api/openapi.json
+        visibility: public
+        source_system: openapi
+
+      # A Javadoc-generated site. Point at the root (index.html folder).
+      - type: javadoc
+        url: https://docs.example.com/javadoc/
+        visibility: public
+        source_system: javadoc
+
+      # A generic HTML documentation site. `include` limits which paths are crawled.
+      - type: html
+        url: https://docs.example.com/guide/
+        include:
+          - "/guide/**"
+        max_pages: 200
+        visibility: private
+        source_system: confluence
+        auth_ref: PRIVATE_SOURCE_TOKEN_DOCS
+
+      # A sitemap.xml -> every listed HTML page is crawled.
+      - type: sitemap
+        url: https://docs.example.com/sitemap.xml
+        visibility: public
+        source_system: website
+
+      # Markdown files (remote URL or local path).
+      - type: markdown
+        url: https://docs.example.com/README.md
+        visibility: private
+        source_system: git
+        auth_ref: PRIVATE_SOURCE_TOKEN_REPO
+
+      # Example: basic auth protected docs.
+      - type: html
+        url: https://private.example.com/docs/
+        include:
+          - "/docs/**"
+        visibility: private
+        source_system: sharepoint
+        auth_type: basic
+        auth_user_env: PRIVATE_SOURCE_USER_DOCS
+        auth_pass_env: PRIVATE_SOURCE_PASS_DOCS

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: knowledgeassist-sources
+data:
+  sources.yaml: |
+    knowledge_bases:
+      - id: default
+        label: Demo KB
+        sources:
+          - type: markdown
+            url: https://docs.example.com/public-api.md
+            visibility: public
+            source_system: website
+          - type: markdown
+            url: https://private.example.com/internal-api.md
+            visibility: private
+            source_system: confluence
+            auth_ref: PRIVATE_SOURCE_TOKEN_DOCS

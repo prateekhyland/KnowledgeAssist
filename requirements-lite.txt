@@ -1,0 +1,14 @@
+# Lightweight dependency set for the "local + ollama" mode:
+#   VECTOR_STORE=local  (NumPy file store, no Postgres)
+#   EMBED_BACKEND=ollama (embeddings via Ollama, no torch/sentence-transformers)
+# Use this when you don't want to install PyTorch or run a PostgreSQL server.
+fastapi>=0.110
+uvicorn[standard]>=0.29
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.2
+PyYAML>=6.0
+python-dotenv>=1.0
+pydantic>=2.6
+numpy>=1.26
+cryptography>=43.0

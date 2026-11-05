@@ -1,0 +1,34 @@
+{{- if .Values.ingestJob.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.ingestJob.name }}
+  labels:
+    {{- include "knowledgeassist.labels" . | nindent 4 }}
+spec:
+  backoffLimit: {{ .Values.ingestJob.backoffLimit }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.ingestJob.name }}
+        {{- include "knowledgeassist.labels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: ingest
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.envSecret.existingSecretName }}
+          command:
+            {{- toYaml .Values.ingestJob.command | nindent 12 }}
+          volumeMounts:
+            - name: sources
+              mountPath: /app/sources.yaml
+              subPath: sources.yaml
+      volumes:
+        - name: sources
+          configMap:
+            name: {{ .Values.sourcesConfig.configMapName }}
+{{- end }}
